@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { BalanceContext } from "../context/BalanceContext";
 
 // helper function to convert month number → month name
 const getMonthName = (monthNumber) => {
@@ -13,11 +14,12 @@ const getMonthName = (monthNumber) => {
 const MonthlyBalances = () => {
     const navigate=useNavigate();
   const [monthlyData, setMonthlyData] = useState([]);
+  const {backendurl} =useContext(BalanceContext)
 
   useEffect(() => {
     const fetchMonthlyData = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/expense/getMonthlyBalance");
+        const res = await axios.get(backendurl+"/api/expense/getMonthlyBalance");
         if (res.data.success) {
           setMonthlyData(res.data.data);
         //   console.log(monthlyData);

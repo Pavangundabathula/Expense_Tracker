@@ -14,12 +14,12 @@ const DashBoard = () => {
   const navigate = useNavigate();
   const [balanceForm, setBalanceForm] = useState(false);
   const [expenseForm, setExpenseForm] = useState(false);
-  const { getBalanceID,balanceId,state,getState } = useContext(BalanceContext);
+  const { getBalanceID,balanceId,state,getState,backendurl } = useContext(BalanceContext);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/expense/getData");
+        const res = await axios.get(backendurl+"/api/expense/getData");
 
         if (res.data.success) {
           setData(res.data.data);

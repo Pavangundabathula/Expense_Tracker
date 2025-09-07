@@ -8,11 +8,12 @@ const BalanceContextProvider = (props) => {
   axios.defaults.withCredentials = true;
 
   const [balanceId, setBalanceId] = useState(null);
+  const backendurl="https://expense-tracker-surc.onrender.com";
   const [state, setState] = useState(0);
 
   const getBalanceID = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/expense/getBalanceId');
+      const res = await axios.get(backendurl+'/api/expense/getBalanceId');
       if (res.data.success) {   
         setBalanceId(res.data.data); 
       } else {
@@ -29,7 +30,7 @@ const BalanceContextProvider = (props) => {
 
       console.log("getState: ", balanceId);
 
-      const res = await axios.post("http://localhost:5000/api/expense/getState", { balanceId });
+      const res = await axios.post(backendurl+"/api/expense/getState", { balanceId });
       if (res.data.success) {  
         setState(res.data.data); 
       } else {
@@ -41,7 +42,7 @@ const BalanceContextProvider = (props) => {
   };
 
   return (
-    <BalanceContext.Provider value={{ balanceId, state, getBalanceID, getState }}>
+    <BalanceContext.Provider value={{ balanceId, state, getBalanceID, getState,backendurl }}>
       {props.children}
     </BalanceContext.Provider>
   );
