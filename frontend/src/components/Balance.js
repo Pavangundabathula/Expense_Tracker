@@ -4,7 +4,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 const Balance = ({ onSuccess }) => {
-  const { getBalanceID, getState, state, balanceId } = useContext(BalanceContext);
+  const { getBalanceID, getState, state, balanceId,backendurl } = useContext(BalanceContext);
   const [amount, setAmount] = useState(0);
 
   const handleSubmit = async (e) => {
@@ -12,7 +12,7 @@ const Balance = ({ onSuccess }) => {
     try {
       axios.defaults.withCredentials = true; 
 
-      const res = await axios.post("http://localhost:5000/api/expense/addBalance", { amount });
+      const res = await axios.post(backendurl+"/api/expense/addBalance", { amount });
 
       if (res.data.success) {  
         toast.success("Balance added successfully");
