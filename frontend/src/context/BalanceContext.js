@@ -8,7 +8,7 @@ const BalanceContextProvider = (props) => {
   axios.defaults.withCredentials = true;
 
   const [balanceId, setBalanceId] = useState(null);
-  const backendurl="https://expense-tracker-surc.onrender.com";
+  const backendurl="";
   const [state, setState] = useState(0);
 
   const getBalanceID = async () => {
