@@ -4,7 +4,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 const Expense = ({ onSuccess }) => {
-  const { balanceId, getBalanceID, getState } = useContext(BalanceContext);
+  const { balanceId, getBalanceID, getState,backendurl } = useContext(BalanceContext);
   const [form, setForm] = useState({ amount: 0, desc: '' });
 
   const handleChange = (e) => {
@@ -14,7 +14,7 @@ const Expense = ({ onSuccess }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:5000/api/expense/addExpense", {
+      const res = await axios.post(backendurl+"/api/expense/addExpense", {
         ...form,
         balanceId
       });
