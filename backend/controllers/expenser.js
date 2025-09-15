@@ -48,7 +48,6 @@ const addBalance=async(req,res)=>{
         if(Lastbalance){
           newState=Lastbalance.state;
           Lastbalance.amount-=newState;
-          Lastbalance.state=0;
           await Lastbalance.save();
         }
 
