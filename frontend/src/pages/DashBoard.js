@@ -143,9 +143,9 @@ const DashBoard = () => {
                       >
                         <span>{exp.desc}</span>
                         <span className="font-bold">₹ {exp.amount}</span>
-                        <button onClick={() => removeExpense(exp._id,item._id)} className="text-white hover:bg-red-700 bg-red-600 px-3 py-2 rounded-md text-center capitalize">
+                        {item.state!=0 && (<button onClick={() => removeExpense(exp._id,item._id)} className="text-white hover:bg-red-700 bg-red-600 px-3 py-2 rounded-md text-center capitalize">
                           remove
-                        </button>
+                        </button>)}
                         <span className="text-gray-500 text-sm">{new Date(exp.date).toLocaleDateString()}</span>
                       </div>
                     ))
