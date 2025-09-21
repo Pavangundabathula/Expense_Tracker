@@ -1,4 +1,3 @@
-// DashBoard.jsx
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
@@ -14,12 +13,13 @@ const DashBoard = () => {
   const navigate = useNavigate();
   const [balanceForm, setBalanceForm] = useState(false);
   const [expenseForm, setExpenseForm] = useState(false);
-  const { getBalanceID,balanceId,state,getState,backendurl } = useContext(BalanceContext);
+  const { getBalanceID, balanceId, state, getState, backendurl } =
+    useContext(BalanceContext);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(backendurl+"/api/expense/getData");
+        const res = await axios.get(`${backendurl}/api/expense/getData`);
 
         if (res.data.success) {
           setData(res.data.data);
@@ -27,22 +27,42 @@ const DashBoard = () => {
           toast.error(res.data.message);
         }
         setBalanceForm(false);
-        setExpenseForm(false); 
+        setExpenseForm(false);
       } catch (error) {
         toast.error("Failed to fetch data");
       }
     };
+
     getBalanceID();
+    getState();
     fetchData();
-  }, [balanceId,state,refresh]);
+  }, [balanceId, state, refresh]);
+
+  const removeExpense = async (id) => {
+    try {
+      const res = await axios.post(`${backendurl}/api/expense/removeExpense`, {"expenseId":id,balanceId});
+
+      if (res.data.success) {
+        toast.success("Expense removed successfully");
+        setRefresh((prev) => !prev);
+      } else {
+        toast.error(res.data.message);
+      }
+    } catch (error) {
+      toast.error("Failed to remove expense");
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 p-6 flex flex-col items-center">
+    <div className="min-h-screen bg-gray-600 p-6 flex flex-col items-center">
       <ToastContainer />
 
       {/* Header */}
       <header className="text-white py-6 shadow-md w-screen text-center h-20 mb-10">
-        <h1 className="text-4xl font-extrabold text-white mb-6" onClick={()=>navigate('/')}>
+        <h1
+          className="text-4xl font-extrabold text-white mb-6 cursor-pointer"
+          onClick={() => navigate("/")}
+        >
           💸 Expense Tracker
         </h1>
       </header>
@@ -68,7 +88,7 @@ const DashBoard = () => {
           ➖ Add Expense
         </button>
         <button
-          onClick={()=>navigate('/monthly')}
+          onClick={() => navigate("/monthly")}
           className="px-6 py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition shadow-lg"
         >
           Monthly Expense
@@ -79,12 +99,12 @@ const DashBoard = () => {
       <div className="w-full flex flex-col items-center gap-4">
         {balanceForm && (
           <div className="animate-fadeIn">
-            {balanceForm && <Balance onSuccess={() => setRefresh(prev => !prev)} />}
+            <Balance onSuccess={() => setRefresh((prev) => !prev)} />
           </div>
         )}
         {expenseForm && (
           <div className="animate-fadeIn">
-            {expenseForm && <Expense onSuccess={() => setRefresh(prev => !prev)} />}
+            <Expense onSuccess={() => setRefresh((prev) => !prev)} />
           </div>
         )}
       </div>
@@ -119,10 +139,13 @@ const DashBoard = () => {
                     item.expenses.map((exp) => (
                       <div
                         key={exp._id}
-                        className="flex justify-between bg-red-50 px-4 py-2 rounded-lg"
+                        className="flex justify-between items-center bg-red-50 px-4 py-2 rounded-lg"
                       >
                         <span>{exp.desc}</span>
                         <span className="font-bold">₹ {exp.amount}</span>
+                        <button onClick={() => removeExpense(exp._id,item._id)} className="text-white hover:bg-red-700 bg-red-600 px-3 py-2 rounded-md text-center capitalize">
+                          remove
+                        </button>
                         <span className="text-gray-500 text-sm">{new Date(exp.date).toLocaleDateString()}</span>
                       </div>
                     ))

@@ -139,7 +139,7 @@ const getState = async (req, res) => {
     if (!balance) {
       return res.json({ success: false, message: "Balance not found" });
     }
-    // console.log("getState controller: ",balance.state);
+    
     res.json({ success: true, data: balance.state });
   } catch (error) {
     console.log(error.message);
@@ -174,6 +174,42 @@ const getMonthlyBalance = async (req, res) => {
   }
 };
 
+const removeExpense=async(req,res)=>{
+    const {expenseId,balanceId}=req.body;
+    
+    if(!expenseId || !balanceId){
+        return res.json({success:false,message:"All fields are required"});
+    }
+
+    try {
+      const expense = await Expense.findById(expenseId);
+      
+      if (!expense) {
+        return res.json({success:false,message:"Expense not found"});
+      }
+
+      const balance = await Balance.findById(balanceId);
+
+      if (!balance) {
+        return res.json({success:false,message:"Balance not found"});
+      } 
+
+      balance.state += expense.amount;
+
+      balance.Expenses = balance.Expenses.filter(
+        expId => expId.toString() !== expenseId
+      );
+
+      await balance.save();
+
+      await Expense.findByIdAndDelete(expenseId);
+
+      return res.json({success:true,message:"Expense removed successfully"});
+
+    } catch (error) {
+      return res.json({success:false,message:error.message});
+    }
+}
 
 
-export { addExpense, addBalance, getData, getLastBalanceId, getState , getMonthlyBalance};
+export { addExpense, addBalance, getData, getLastBalanceId, getState , getMonthlyBalance , removeExpense};

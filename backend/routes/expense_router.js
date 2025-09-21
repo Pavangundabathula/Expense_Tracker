@@ -1,5 +1,5 @@
 import express from 'express';
-import {addExpense,addBalance,getData, getLastBalanceId, getState, getMonthlyBalance} from '../controllers/expenser.js';  
+import {addExpense,addBalance,getData, getLastBalanceId, getState, getMonthlyBalance, removeExpense} from '../controllers/expenser.js';  
 
 const expenseRouter = express.Router();
 
@@ -9,5 +9,6 @@ expenseRouter.get('/getData',getData);
 expenseRouter.get('/getBalanceId',getLastBalanceId);
 expenseRouter.post('/getState',getState);
 expenseRouter.get('/getMonthlyBalance',getMonthlyBalance);
+expenseRouter.post('/removeExpense',removeExpense);
 
 export default expenseRouter;
