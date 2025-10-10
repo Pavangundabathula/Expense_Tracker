@@ -47,7 +47,7 @@ const addBalance=async(req,res)=>{
 
         if(Lastbalance){
           newState=Lastbalance.state;
-          Lastbalance.amount-=newState;
+          Lastbalance.state=0;
           await Lastbalance.save();
         }
 
@@ -72,6 +72,50 @@ const addBalance=async(req,res)=>{
 
 
 const getData = async (req, res) => {
+  try {
+    const balances = await Balance.find()
+      .populate("Expenses")
+      .lean();
+
+    const formattedBalances = balances.filter(balance => balance.state > 0)
+    .map(balance => {
+      const totalExpenses = balance.Expenses.reduce(
+        (sum, exp) => sum + exp.amount,
+        0
+      );
+
+      return {
+        _id: balance._id,
+        amount: balance.amount,
+        state: balance.state,
+        totalExpenses,
+        remainingBalance: balance.state,
+        expenses: balance.Expenses.map(exp => ({
+          _id: exp._id,
+          amount: exp.amount,
+          desc: exp.desc,
+          date: new Date(exp.date).toLocaleDateString("en-IN", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+          })
+        })),
+        createdAt: new Date(balance.date).toLocaleDateString("en-IN", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric"
+        })
+      };
+    });
+
+    res.json({ success: true, data: formattedBalances });
+  } catch (error) {
+    console.log(error.message);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+const getAllData = async (req, res) => {
   try {
     const balances = await Balance.find()
       .populate("Expenses")
@@ -212,4 +256,4 @@ const removeExpense=async(req,res)=>{
 }
 
 
-export { addExpense, addBalance, getData, getLastBalanceId, getState , getMonthlyBalance , removeExpense};
+export { addExpense, addBalance, getData, getAllData, getLastBalanceId, getState, getMonthlyBalance , removeExpense};

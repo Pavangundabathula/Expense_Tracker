@@ -22,7 +22,6 @@ const MonthlyBalances = () => {
         const res = await axios.get(backendurl+"/api/expense/getMonthlyBalance");
         if (res.data.success) {
           setMonthlyData(res.data.data);
-        //   console.log(monthlyData);
           toast.success("Monthly data fetched successfully");
         } else {
           toast.error(res.data.message);
