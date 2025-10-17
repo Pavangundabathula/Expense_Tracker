@@ -68,7 +68,7 @@ const DashBoard = () => {
       </header>
 
       {/* Action Buttons */}
-     <div className="flex gap-3 sm:gap-4 mb-6 justify-center sm:justify-start">
+     <div className="flex flex-wrap gap-3 sm:gap-4 mb-6 justify-center sm:justify-start">
         <button
           onClick={() => {
             setBalanceForm(!balanceForm);
