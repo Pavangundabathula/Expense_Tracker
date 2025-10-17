@@ -220,7 +220,6 @@ const getMonthlyBalance = async (req, res) => {
 
 const removeExpense=async(req,res)=>{
     const {expenseId,balanceId}=req.body;
-    
     if(!expenseId || !balanceId){
         return res.json({success:false,message:"All fields are required"});
     }

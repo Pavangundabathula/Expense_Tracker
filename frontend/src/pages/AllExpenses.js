@@ -35,7 +35,7 @@ const AllExpenses = () => {
 
   return (
     <div className="min-h-screen bg-gray-600 p-6 flex flex-col items-center">
-      <ToastContainer />
+      <ToastContainer/>
 
       {/* Header */}
       <header className="text-white py-6 shadow-md w-screen text-center h-20 mb-10">

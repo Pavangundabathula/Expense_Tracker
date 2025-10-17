@@ -68,39 +68,42 @@ const DashBoard = () => {
       </header>
 
       {/* Action Buttons */}
-      <div className="flex gap-4 mb-6">
+     <div className="flex gap-3 sm:gap-4 mb-6 justify-center sm:justify-start">
         <button
           onClick={() => {
             setBalanceForm(!balanceForm);
             setExpenseForm(false);
           }}
-          className="px-6 py-3 rounded-xl bg-green-600 text-white font-semibold hover:bg-green-700 transition shadow-lg"
+          className="px-4 py-2 sm:px-6 sm:py-3 rounded-lg sm:rounded-xl bg-green-600 text-white font-medium sm:font-semibold hover:bg-green-700 transition shadow-md w-full sm:w-auto"
         >
           ➕ Add Balance
         </button>
+
         <button
           onClick={() => {
             setExpenseForm(!expenseForm);
             setBalanceForm(false);
           }}
-          className="px-6 py-3 rounded-xl bg-red-600 text-white font-semibold hover:bg-red-700 transition shadow-lg"
+          className="px-4 py-2 sm:px-6 sm:py-3 rounded-lg sm:rounded-xl bg-red-600 text-white font-medium sm:font-semibold hover:bg-red-700 transition shadow-md w-full sm:w-auto"
         >
           ➖ Add Expense
         </button>
+
         <button
           onClick={() => navigate("/monthly")}
-          className="px-6 py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition shadow-lg"
+          className="px-4 py-2 sm:px-6 sm:py-3 rounded-lg sm:rounded-xl bg-blue-600 text-white font-medium sm:font-semibold hover:bg-blue-700 transition shadow-md w-full sm:w-auto"
         >
           Monthly Expense
         </button>
 
         <button
           onClick={() => navigate("/allExpenses")}
-          className="px-6 py-3 rounded-xl bg-orange-600 text-white font-semibold hover:bg-orange-700 transition shadow-lg"
+          className="px-4 py-2 sm:px-6 sm:py-3 rounded-lg sm:rounded-xl bg-orange-600 text-white font-medium sm:font-semibold hover:bg-orange-700 transition shadow-md w-full sm:w-auto"
         >
           All Expenses
         </button>
       </div>
+
 
       {/* Forms */}
       <div className="w-full flex flex-col items-center gap-4">
